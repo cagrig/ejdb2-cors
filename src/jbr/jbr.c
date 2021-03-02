@@ -586,6 +586,10 @@ static void _jbr_on_http_request(http_s *req) {
   const EJDB_HTTP *http = jbr->http;
   char cname[EJDB_COLLECTION_NAME_MAX_LEN + 1];
 
+  if (http->cors) {
+    _jbr_http_set_header(req, "Access-Control-Allow-Origin", 27, "*", 1);
+  }
+
   if (!_jbr_fill_ctx(req, &rctx)) {
     http_send_error(req, 400); // Bad request
     return;

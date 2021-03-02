@@ -20,7 +20,7 @@ int main(int argc, char const *argv[]) {
                                "If token prefixed by '@' it will be treated as file."),
                 FIO_CLI_BOOL("--trunc -t Cleanup existing database file on open"),
                 FIO_CLI_BOOL("--wal -w Use write ahead logging (WAL). Must be set for data durability."),
-                FIO_CLI_BOOL("--cors Enable Cross-Origin Resource Sharing (CORS).")
+                FIO_CLI_BOOL("--cors Enable Cross-Origin Resource Sharing (CORS)."),
                 FIO_CLI_PRINT_HEADER("Advanced options"),
                 FIO_CLI_INT(
                   "--sbz Max sorting buffer size. If exceeded, an overflow temp file for data will be created. "
