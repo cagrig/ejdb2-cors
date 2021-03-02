@@ -469,6 +469,17 @@ static void _jbr_on_options(JBRCTX *rctx) {
     _jbr_http_set_header(req, "Allow", 5, "GET, HEAD, POST, PUT, PATCH, DELETE, OPTIONS", 44);
   }
 
+  if (http->cors) {
+    _jbr_http_set_header(req, "Access-Control-Allow-Origin", 27, "*", 1);
+    _jbr_http_set_header(req, "Access-Control-Allow-Headers", 28, "X-Requested-With, Content-Type, Accept, Origin, Authorization", 61);
+
+    if (http->read_anon) {
+      _jbr_http_set_header(req, "Access-Control-Allow-Methods", 28, "GET, HEAD, POST, OPTIONS", 24);
+    } else {
+      _jbr_http_set_header(req, "Access-Control-Allow-Methods", 28, "GET, HEAD, POST, PUT, PATCH, DELETE, OPTIONS", 44);
+    }
+  }
+
   _jbr_http_send(req, 200, "application/json",
                  iwxstr_ptr(xstr),
                  iwxstr_size(xstr));
@@ -1300,7 +1311,7 @@ static void *_jbr_start_thread(void *op) {
     return 0;
   }
   iwitoa(http->port, nbuf, sizeof(nbuf));
-  iwlog_info("HTTP/WS endpoint at %s:%s", bind, nbuf);
+  iwlog_info("CORS HTTP/WS endpoint at %s:%s", bind, nbuf);
   websocket_optimize4broadcasts(WEBSOCKET_OPTIMIZE_PUBSUB_TEXT, 1);
   if (http_listen(nbuf, bind,
                   .udata = jbr,
